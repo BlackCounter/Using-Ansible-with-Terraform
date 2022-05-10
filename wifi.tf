@@ -35,3 +35,4 @@ resource "null_resource" "wifi" {
     ]
   }
 }
+$ terraform apply -target=null_resource.upgrade-packages
