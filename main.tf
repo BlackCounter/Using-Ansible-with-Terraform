@@ -43,6 +43,24 @@ resource "null_resource" "ProvisionRemoteHostsIpToAnsibleHosts" {
       "sudo pip install httplib2"
     ]
   }
+
+provisioner "remote-exec" {
+    inline = [
+      "export PATH=$PATH:/usr/bin",
+      "sudo apt-get update",
+      "sudo apt install git",
+      
+      "git clone https://github.com/advantch/go-web-app",
+      "docker-compose up -d --build",
+
+      "cd go-web-app && docker-compose up -d --build", 
+      "docker-container ls",
+
+      "sudo ufw allow 8080",
+      "curl ifconfig.me"
+    ]
+  }
+
   provisioner "local-exec" {
     command = "echo ${element(aws_instance.myInstanceAWS.*.public_ip, count.index)} >> hosts"
   }
